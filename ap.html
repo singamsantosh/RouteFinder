@@ -93,18 +93,18 @@ $(document).ready(function(){
     $("#addButton").click(function () {
         
   if(counter>10){
-            alert("Only 10 textboxes allow");
+            alert("Only 10 destinationes allow");
             return false;
   }   
     
-  var newTextBoxDiv = $(document.createElement('div'))
-       .attr("id", 'TextBoxDiv' + counter);
+  var newdestinationDiv = $(document.createElement('div'))
+       .attr("id", 'destinationDiv' + counter);
                 
-  newTextBoxDiv.after().html('<label>Textbox #'+ counter + ' : </label>' +
-        '<input type="text" name="textbox' + counter + 
-        '" id="textbox' + counter + '" value="" >');
+  newdestinationDiv.after().html('<label><b><font style="font-family:cursive" color="#6B8E23">destination #'+ counter + ' : </font></b></label>' +
+        '<input type="text" name="destination' + counter + 
+        '" id="destination' + counter + '" value="" >');
             
-  newTextBoxDiv.appendTo("#TextBoxesGroup");
+  newdestinationDiv.appendTo("#destinationesGroup");
 
         
   counter++;
@@ -112,13 +112,13 @@ $(document).ready(function(){
 
      $("#removeButton").click(function () {
   if(counter==1){
-          alert("No more textbox to remove");
+          alert("No more destination to remove");
           return false;
        }   
         
   counter--;
       
-        $("#TextBoxDiv" + counter).remove();
+        $("#destinationDiv" + counter).remove();
       
      });
     
@@ -126,7 +126,7 @@ $(document).ready(function(){
     
   var msg = '';
   for(i=1; i<counter; i++){
-      msg += "\n Textbox #" + i + " : " + $('#textbox' + i).val();
+      msg += "\n destination #" + i + " : " + $('#destination' + i).val();
   }
         alert(msg);
      });
@@ -158,9 +158,9 @@ $(document).ready(function(){
       <div class="sharp"><input type="text" id="to" name="to" required="required" placeholder="Another address" size="30" /></div>
       <br />
       <p></p>
-      <div id='TextBoxesGroup'>
-  <div id="TextBoxDiv1">
-    <label>Textbox #1 : </label><input type='textbox' id='textbox1' >
+      <div id='destinationesGroup'>
+  <div id="destinationDiv1">
+    <label>destination #1 : </label><input type='destination' id='destination1' >
   </div>
 </div>
       <input type='button' value='Add Button' id='addButton'>
