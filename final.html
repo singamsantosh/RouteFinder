@@ -107,7 +107,7 @@ for (var i = 2; i < counter ; i++) {
        if (status == google.maps.DirectionsStatus.OK) {
         var point = response.routes[0].legs[0];
         //point+=response.routes[1].legs[1].duration.text;
-        $("#time").append(point.duration.text+" Distance:"+point.distance.text);
+        $("#time").text(point.duration.text+" Distance:"+point.distance.text);
          directionsDisplay.setDirections(response);
        } else { alert("Directions Request failed: "+status); }
      });
@@ -134,7 +134,8 @@ for (var i = 2; i < counter ; i++) {
 <div style="width: 600px;">
      <div id="map" style="width:600px; height:500px;"></div>
    </div>  
-<div id="time" bgcolor="red"></div>
+   <font color="#FFF134" style="font-family:cursive"><div id="time" color="red"></div>
+</font>
 
 </center>
 </body>
