@@ -1,0 +1,142 @@
+<html>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+</head>
+<title>
+  Maps 
+</title>
+<body background="maps.jpg">
+<script type="text/javascript">
+    var counter = 2;
+
+$(document).ready(function(){
+
+    
+    $("#addButton").click(function () {
+        
+  if(counter>6){
+            alert("Only 8 Destinationes allow");
+            return false;
+  }   
+    
+  var newDestinationDiv = $(document.createElement('div'))
+       .attr("id", 'DestinationDiv' + counter);
+                
+  newDestinationDiv.append('<label><b><font style="font-family:cursive" color="#6B8E23">Waypoint #'+ counter + ' : </font></b></label>' +
+        '<input type="text" name="Destination' + counter + 
+        '" id="Destination' + counter + '" value="" >');
+            
+  newDestinationDiv.appendTo("#DestinationesGroup");
+
+        
+  counter++;
+     });
+
+     $("#removeButton").click(function () {
+  if(counter==1){
+          alert("No more Destination to remove");
+          return false;
+       }   
+        
+  counter--;
+      
+        $("#DestinationDiv" + counter).remove();
+      
+     });
+    
+     $("#getButtonValue").click(function () {
+    
+  var msg = '';
+  for(i=1; i<counter; i++){
+      msg += "\n Destination #" + i + " : " + $('#Destination' + i).val();
+  }
+        alert(msg);
+     });
+  });
+function init()
+{
+     var directionsService = new google.maps.DirectionsService();
+     var directionsDisplay = new google.maps.DirectionsRenderer();
+
+     var orig ="MG Rd, FM Cariappa Colony, Shivaji Nagar, Bengaluru, Karnataka 560001, India";
+     var orig=document.getElementById('from').value;
+     console.log(orig);
+     var dest=document.getElementById('to').value;
+     //var orig = "HKBK College of Engineering, No 22/1,9th Cross,Govindapura,Nagwara, Bengaluru, Karnataka 560045, India";
+     //var dest = "HKBK College of Engineering, No 22/1,9th Cross,Govindapura,Nagwara, Bengaluru, Karnataka 560045, India";
+
+
+     //New coordinate defined below
+     //var wps1 = "Banaswadi, Bengaluru, Karnataka, India";
+     //var wps2 = "Shampura Bus Stand, Shampura Main Road, Shampura, Kaval Bairasandra, Bengaluru, Karnataka 560032, India";
+    // var wps3 = "Kempegowda Bus Station, Kempegowda, Majestic, Bengaluru, Karnataka 560023, India";
+    //Here is the waypoint
+    var waypts= [ ];
+   //var waypts = [{ location: wps2,stopover: true }];
+    // var waypts = [{ location: wps3,stopover: true }];
+
+
+
+for (var i = 2; i < counter ; i++) {
+      waypts.push({
+        location:document.getElementById('Destination'+i).value,
+        stopover: true
+      });
+   }
+  //}
+     var map = new google.maps.Map(document.getElementById('map'), {
+       zoom:7,
+       center: {lat: 41.85, lng: -87.65},
+       mapTypeId: google.maps.MapTypeId.ROADMAP
+     });
+
+     directionsDisplay.setMap(map);
+
+
+     var request = {
+             origin: orig,
+             destination: dest,
+             waypoints: waypts, 
+             optimizeWaypoints: true,//Adding the waypoint here
+             travelMode: google.maps.DirectionsTravelMode.DRIVING
+     }
+
+
+
+      directionsService.route(request, function(response, status) {
+       if (status == google.maps.DirectionsStatus.OK) {
+        var point = response.routes[0].legs[0];
+        //point+=response.routes[1].legs[1].duration.text;
+        $("#time").append(point.duration.text+" Distance:"+point.distance.text);
+         directionsDisplay.setDirections(response);
+       } else { alert("Directions Request failed: "+status); }
+     });
+    //}
+}
+   </script>
+
+    <center>
+    <h1><font color="#FFF134" style="font-family:cursive">Calculate your route</font></h1>
+      <label for="from"><b><font style="font-family:cursive" color="#6B8E23">Source:</font></b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+      <input type="text" id="from" name="from" required="required" placeholder="An address" size="30" />
+      <br />
+      <div id='DestinationesGroup'>
+      <div id="DestinationDiv1">
+      <label for="to"><b><font style="font-family:cursive" color="#6B8E23">Destination :</font></b></label>
+      <input type="text" id="to" name="to" required="required" placeholder="Another address" size="30" />
+      </div></div>
+      <br />
+      <p></p>
+      <input type="submit" onclick="init()">
+  <input type='button' value='Add Waypoint' id='addButton'>
+    <p id="error"></p>
+  
+<div style="width: 600px;">
+     <div id="map" style="width:600px; height:500px;"></div>
+   </div>  
+<div id="time" bgcolor="red"></div>
+
+</center>
+</body>
+
+</html>
